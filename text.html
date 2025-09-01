@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>আমি তোমাকে মিস করি</title>
+  <meta name="description" content="A sweet Bangla romantic 'Miss You' page with typewriter text, floating hearts and soft music." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg1:#0f1021;
+      --bg2:#1f1d2b;
+      --accent:#ff6b88;
+      --accent-2:#ffd1dc;
+      --text:#f6f6f9;
+      --muted:#bdbdd7;
+      --glass: rgba(255, 255, 255, 0.08);
+      --blur: 16px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;}
+    body{
+      margin:0; font-family:"Poppins", system-ui, -apple-system, Segoe UI, Roboto, Arial, Helvetica, sans-serif;
+      color:var(--text); background: radial-gradient(1000px 600px at 10% 10%, #2a2442, transparent),
+                           radial-gradient(800px 500px at 90% 20%, #351e2f, transparent),
+                           linear-gradient(120deg, var(--bg1), var(--bg2));
+      overflow-x:hidden;
+    }
+    .wrap{
+      min-height:100%; display:flex; align-items:center; justify-content:center; padding:24px;
+    }
+    .card{
+      position:relative; width:min(860px, 96vw); padding:28px; border-radius:28px;
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      box-shadow:0 20px 60px rgba(0,0,0,.35), inset 0 0 0 1px rgba(255,255,255,.08);
+      backdrop-filter: blur(var(--blur));
+      -webkit-backdrop-filter: blur(var(--blur));
+      overflow:hidden;
+    }
+    .halo{
+      position:absolute; inset:-40% -10% auto auto; width:60%; aspect-ratio:1/1; border-radius:50%;
+      background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.22), rgba(255,255,255,0) 60%),
+                  radial-gradient(circle at 70% 70%, rgba(255,107,136,.35), rgba(255,107,136,0) 55%);
+      filter: blur(40px); opacity:.5; pointer-events:none;
+      animation: float 8s ease-in-out infinite;
+    }
+    @keyframes float{ 0%,100%{transform:translateY(0)} 50%{transform:translateY(12px)} }
+
+    header{
+      display:flex; align-items:center; gap:14px; margin-bottom:8px;
+    }
+    .heart-logo{
+      width:44px; height:44px; display:grid; place-items:center; border-radius:14px;
+      background:linear-gradient(135deg, var(--accent), #ff3d61); box-shadow:0 10px 24px rgba(255,107,136,.35);
+    }
+    .heart-logo svg{filter:drop-shadow(0 2px 6px rgba(0,0,0,.25));}
+    .title{
+      font-family:"Great Vibes", cursive; font-size: clamp(28px, 5.2vw, 52px); line-height:1; letter-spacing:.5px;
+    }
+    .subtitle{ color:var(--muted); font-size: clamp(14px, 2.6vw, 16px); margin-top:4px; }
+
+    .content{ margin-top:18px; }
+    .quote{
+      font-size: clamp(18px, 3.5vw, 22px); line-height:1.9; font-weight:400; color:#fff; opacity:.95;
+    }
+    .quote .hi{ color: var(--accent-2); font-weight:600; }
+    .type{ border-right: 2px solid var(--accent-2); white-space:pre-wrap; overflow:hidden; display:inline-block; min-height: 5lh; }
+
+    .row{ display:flex; gap:18px; flex-wrap:wrap; margin-top:20px; }
+    .chip{ padding:10px 14px; border-radius:999px; background:var(--glass); color:var(--muted); font-size:14px; border:1px solid rgba(255,255,255,.08); }
+
+    .actions{ display:flex; gap:12px; flex-wrap:wrap; margin-top:22px; }
+    .btn{
+      appearance:none; border:0; padding:14px 18px; border-radius:14px; font-weight:700; font-size:15px; cursor:pointer;
+      background:linear-gradient(135deg, var(--accent), #ff3d61); color:white; box-shadow:0 10px 24px rgba(255,107,136,.35);
+      transition: transform .15s ease, box-shadow .15s ease, filter .2s;
+    }
+    .btn:hover{ transform: translateY(-1.5px); box-shadow:0 14px 30px rgba(255,107,136,.38); }
+    .btn.secondary{ background:rgba(255,255,255,.06); color:var(--text); border:1px solid rgba(255,255,255,.12); box-shadow:none; }
+
+    footer{ margin-top:18px; color:var(--muted); font-size:12.5px; text-align:center; }
+
+    /* Floating hearts */
+    .hearts{ position:fixed; inset:0; pointer-events:none; overflow:hidden; }
+    .hearts span{
+      position:absolute; display:block; width:14px; height:14px; transform: rotate(45deg);
+      background: linear-gradient(135deg, #ff6b88, #ff3d61); opacity:.55; filter: blur(.2px);
+      animation: rise linear var(--d) infinite; left: var(--x); bottom:-20px;
+    }
+    .hearts span::before, .hearts span::after{
+      content:""; position:absolute; width:100%; height:100%; border-radius:50%; background:inherit; top:-50%; left:0;
+    }
+    .hearts span::after{ left:-50%; top:0; }
+    @keyframes rise{
+      0%{ transform: translateY(0) rotate(45deg) scale(.6); }
+      100%{ transform: translateY(-110vh) rotate(45deg) scale(1.15); }
+    }
+
+    /* Audio control */
+    .audio{
+      position: fixed; right: 16px; bottom: 16px; z-index: 10; display:flex; align-items:center; gap:10px;
+      background: rgba(0,0,0,.35); backdrop-filter: blur(10px); border:1px solid rgba(255,255,255,.14);
+      padding:10px 12px; border-radius:14px; box-shadow: 0 10px 26px rgba(0,0,0,.25);
+    }
+    .audio button{ background:transparent; color:#fff; border:0; cursor:pointer; font-weight:700; }
+
+    /* Mobile tweaks */
+    @media (max-width:480px){
+      .card{ padding:22px; border-radius:22px; }
+      .quote{ line-height: 1.8; }
+    }
+  </style>
+</head>
+<body>
+  <div class="hearts" aria-hidden="true" id="hearts"></div>
+
+  <div class="wrap">
+    <article class="card" role="dialog" aria-label="Miss You Message">
+      <div class="halo"></div>
+
+      <header>
+        <div class="heart-logo" aria-hidden="true">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M12 21s-6.716-4.088-9.17-6.545C1.455 13.08 1 11.94 1 10.75 1 8.127 3.127 6 5.75 6c1.478 0 2.82.617 3.77 1.61L12 10.25l2.48-2.64C15.43 6.617 16.772 6 18.25 6 20.873 6 23 8.127 23 10.75c0 1.19-.455 2.33-1.83 3.705C18.716 16.912 12 21 12 21Z" fill="#fff"/>
+          </svg>
+        </div>
+        <div>
+          <div class="title">আমি তোমাকে খুব মিস করি</div>
+          <div class="subtitle">একটা ছোট্ট বার্তা—শুধুই তোমার জন্য 💌</div>
+        </div>
+      </header>
+
+      <section class="content">
+        <p class="quote"><span class="type" id="type"></span></p>
+        <div class="row" id="chips">
+          <span class="chip">তোমাকে ছাড়া দিন ধূসর</span>
+          <span class="chip">তুমি থাকলে সব রঙিন</span>
+          <span class="chip">প্রতিটা নিঃশ্বাসে—তুমি</span>
+        </div>
+        <div class="actions">
+          <button class="btn" id="btnReplay">আবার পড়ো ✨</button>
+          <button class="btn secondary" id="btnShare">Share / WhatsApp</button>
+        </div>
+      </section>
+
+      <footer>
+        <span id="signature">— তোমারই, ❤️</span>
+      </footer>
+    </article>
+  </div>
+
+  <div class="audio" role="group" aria-label="Background Music Controls">
+    <button id="toggleMusic">▶️ Music</button>
+    <audio id="bgm" preload="auto" loop>
+      <!-- Replace src with your preferred mp3 link -->
+      <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_3b1260d49a.mp3?filename=love-110241.mp3" type="audio/mpeg">
+    </audio>
+  </div>
+
+  <script>
+    // ✅ Editable text (change easily)
+    const message = `প্রিয়, তুমি বলেছিলে, আমি নাকি তোমাকে ঠিকভাবে মিস করি না।\n\nকিন্তু জানো, প্রতিটা নিঃশ্বাসে তোমার নামটাই যেন ঘুরে ফিরে আসে। তোমার অনুপস্থিতি আমার চারপাশে একধরনের নীরবতা ছড়িয়ে দেয়, যেটা কেউ বুঝতে পারে না।\n\nআমি হাসি, কথা বলি, চলি—সব ঠিকঠাক মনে হয়, কিন্তু ভেতরে একটা শূন্যতা কাজ করে। তুমি থাকলে সবকিছু রঙিন লাগে, আর না থাকলে দিনগুলো কেমন যেন ধূসর হয়ে যায়।\n\nতোমার জন্যই, প্রতিদিন অপেক্ষা করি...🙂💔`;
+    const signature = "— তোমারই প্রনয়, ❤️"; // e.g., "— তোমারই, টোবি ❤️"
+
+    // Typewriter effect
+    const speed = 18; // ms per char
+    const el = document.getElementById('type');
+    const sig = document.getElementById('signature');
+    const btnReplay = document.getElementById('btnReplay');
+    const btnShare = document.getElementById('btnShare');
+
+    function typeText(text){
+      el.textContent = '';
+      let i=0;
+      const iv = setInterval(()=>{
+        el.textContent += text[i++];
+        if(i >= text.length) clearInterval(iv);
+      }, speed);
+    }
+
+    // Floating hearts generator
+    const heartsBox = document.getElementById('hearts');
+    function makeHeart(){
+      const h = document.createElement('span');
+      h.style.setProperty('--x', Math.random()*100 + 'vw');
+      h.style.setProperty('--d', (6 + Math.random()*8) + 's');
+      h.style.opacity = 0.35 + Math.random()*0.45;
+      h.style.width = h.style.height = (10 + Math.random()*20) + 'px';
+      heartsBox.appendChild(h);
+      setTimeout(()=> h.remove(), 16000);
+    }
+    setInterval(makeHeart, 400);
+    for(let i=0;i<30;i++) makeHeart();
+
+    // Init
+    typeText(message);
+    sig.textContent = signature;
+
+    // Replay
+    btnReplay.addEventListener('click', ()=>{
+      typeText(message);
+      window.scrollTo({top:0, behavior:'smooth'});
+    });
+
+    // Share / WhatsApp
+    btnShare.addEventListener('click', async ()=>{
+      const text = message + "\n\n" + signature.replace('—','');
+      if(navigator.share){
+        try{ await navigator.share({ text }); }catch(e){}
+      }else{
+        const url = 'https://wa.me/?text=' + encodeURIComponent(text);
+        window.open(url, '_blank');
+      }
+    });
+
+    // Music control (requires user gesture)
+    const audio = document.getElementById('bgm');
+    const toggle = document.getElementById('toggleMusic');
+    let playing = false;
+    toggle.addEventListener('click', async ()=>{
+      try{
+        if(!playing){ await audio.play(); toggle.textContent = '⏸️ Pause'; }
+        else { audio.pause(); toggle.textContent = '▶️ Music'; }
+        playing = !playing;
+      }catch(err){ console.log(err); }
+    });
+  </script>
+</body>
+</html>
